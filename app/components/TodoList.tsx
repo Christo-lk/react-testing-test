@@ -27,6 +27,10 @@ export default function TodoList() {
     );
   };
 
+  const handleDeleteTodo = (index: number) => {
+    setTodos(todos.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="max-w-md mx-auto">
       <div className="flex gap-2 mb-6">
@@ -53,6 +57,7 @@ export default function TodoList() {
             text={todo.text}
             done={todo.done}
             onToggle={() => handleToggleTodo(index)}
+            onDelete={() => handleDeleteTodo(index)}
           />
         ))}
       </div>
