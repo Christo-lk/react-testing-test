@@ -15,9 +15,10 @@ function generateId(): string {
 export function useTodos() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const handleAddTodo = () => {
-    if (newTodo) {
+    if (newTodo.length) {
       setTodos([
         ...todos,
         {
@@ -47,6 +48,20 @@ export function useTodos() {
     setNewTodo(e.target.value);
   };
 
+  const handleToggleSelect = (id: string) => {
+    setSelectedItems((prev) =>
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
+    );
+  };
+
+  const isSelected = (id: string) => {
+    return selectedItems.includes(id);
+  };
+
+  const handleClearSelection = () => {
+    setSelectedItems([]);
+  };
+
   const data = {
     todos,
     newTodo,
@@ -57,6 +72,9 @@ export function useTodos() {
     handleToggleTodo,
     handleDeleteTodo,
     handleChange,
+    handleToggleSelect,
+    isSelected,
+    handleClearSelection,
   };
 
   return {

@@ -31,8 +31,10 @@ export default function TodoList() {
             key={todo.id}
             text={todo.text}
             done={todo.done}
+            selected={handlers.isSelected(todo.id)}
             onToggle={() => handlers.handleToggleTodo(todo.id)}
             onDelete={() => handlers.handleDeleteTodo(todo.id)}
+            onSelect={() => handlers.handleToggleSelect(todo.id)}
           />
         ))}
       </div>
