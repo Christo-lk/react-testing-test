@@ -6,6 +6,7 @@ export function generateId(): string {
 
 export const removeDuplicateTodos = (todos: ITodo[]): ITodo[] => {
   const seenTexts = new Set<string>();
+
   return todos.filter((todo) => {
     if (seenTexts.has(todo.text)) {
       return false;
@@ -24,13 +25,6 @@ export const removeEvenTodos = (todos: ITodo[]): ITodo[] => {
 };
 
 export const hasDuplicateTodos = (todos: ITodo[]): boolean => {
-  const seenTexts: string[] = [];
-
-  return todos.some((todo) => {
-    if (seenTexts.includes(todo.text)) {
-      return true;
-    }
-    seenTexts.push(todo.text);
-    return false;
-  });
+  const seenTexts = new Set(todos.map((todo) => todo.text));
+  return seenTexts.size !== todos.length;
 };

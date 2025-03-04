@@ -37,7 +37,7 @@ interface IData {
 interface IState {
   isSelected: (id: string) => boolean;
   isTodoListLengthEven: boolean;
-  todoListContainesDuplicates: boolean;
+  todoListContainsDuplicates: boolean;
 }
 
 interface IUseTodos {
@@ -52,7 +52,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const isTodoListLengthEven = todos.length % 2 === 0 && todos.length > 0;
-  const todoListContainesDuplicates = hasDuplicateTodos(todos);
+  const todoListContainsDuplicates = hasDuplicateTodos(todos);
 
   const handleAddTodo = () => {
     if (newTodo.trim()) {
@@ -119,7 +119,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const state: IState = {
     isSelected,
     isTodoListLengthEven,
-    todoListContainesDuplicates,
+    todoListContainsDuplicates,
   };
 
   const handlers: IHandlers = {

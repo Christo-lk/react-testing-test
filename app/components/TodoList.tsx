@@ -1,14 +1,18 @@
 "use client";
 
 import TodoItem from "./TodoItem";
-import { useTodos } from "../hooks/useTodos";
+import { ITodo, useTodos } from "../hooks/useTodos";
 import Button from "./Button";
 
-export default function TodoList() {
-  const { data, handlers, state } = useTodos({});
+interface IProps {
+  initialTodos?: ITodo[];
+}
+
+export default function TodoList({ initialTodos = [] }: IProps) {
+  const { data, handlers, state } = useTodos({ initialTodos });
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="w-lg">
       <div className="flex gap-2 mb-6">
         <input
           type="text"
@@ -35,15 +39,7 @@ export default function TodoList() {
         ))}
       </div>
 
-      <Button
-        type="error"
-        disabled={!state.isTodoListLengthEven}
-        onClick={handlers.removeEvenTodos}
-      >
-        Remove even todos
-      </Button>
-
-      {state.todoListContainesDuplicates && (
+      {state.todoListContainsDuplicates && (
         <div className="mt-4 text-red-500">
           Todo list contains duplicates!!!
           <Button
@@ -55,6 +51,14 @@ export default function TodoList() {
           </Button>
         </div>
       )}
+
+      {/* <Button
+        type="error"
+        disabled={!state.isTodoListLengthEven}
+        onClick={handlers.removeEvenTodos}
+      >
+        Remove even todos
+      </Button> */}
     </div>
   );
 }
