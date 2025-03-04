@@ -4,7 +4,7 @@ import TodoItem from "./TodoItem";
 import { useTodos } from "../hooks/useTodos";
 
 export default function TodoList() {
-  const { data, handlers } = useTodos();
+  const { data, handlers, state } = useTodos({});
 
   return (
     <div className="max-w-md mx-auto">
@@ -12,7 +12,7 @@ export default function TodoList() {
         <input
           type="text"
           value={data.newTodo}
-          onChange={handlers.handleChange}
+          onChange={(e) => handlers.handleChange(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && handlers.handleAddTodo()}
           placeholder="Add a new todo..."
           className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -29,9 +29,8 @@ export default function TodoList() {
         {data.todos.map((todo) => (
           <TodoItem
             key={todo.id}
-            text={todo.text}
-            done={todo.done}
-            selected={handlers.isSelected(todo.id)}
+            item={todo}
+            isSelected={state.isSelected(todo.id)}
             onToggle={() => handlers.handleToggleTodo(todo.id)}
             onDelete={() => handlers.handleDeleteTodo(todo.id)}
             onSelect={() => handlers.handleToggleSelect(todo.id)}

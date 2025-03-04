@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { generateId } from "./todoHelper";
 
-interface Todo {
+export interface ITodo {
   id: string;
   text: string;
   done: boolean;
 }
 
 interface IProps {
-  initialTodos?: Todo[];
+  initialTodos?: ITodo[];
 }
 
 interface IHandlers {
@@ -23,7 +23,7 @@ interface IHandlers {
 }
 
 interface IData {
-  todos: Todo[];
+  todos: ITodo[];
   newTodo: string;
 }
 
@@ -39,7 +39,7 @@ interface IUseTodos {
 }
 
 export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<ITodo[]>(initialTodos);
   const [newTodo, setNewTodo] = useState("");
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
