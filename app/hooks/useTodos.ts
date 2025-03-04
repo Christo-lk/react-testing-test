@@ -17,7 +17,7 @@ export function useTodos() {
   const [newTodo, setNewTodo] = useState("");
 
   const handleAddTodo = () => {
-    if (newTodo.trim()) {
+    if (newTodo) {
       setTodos([
         ...todos,
         {
@@ -26,6 +26,7 @@ export function useTodos() {
           done: false,
         },
       ]);
+
       setNewTodo("");
     }
   };
