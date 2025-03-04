@@ -2,6 +2,7 @@
 
 import TodoItem from "./TodoItem";
 import { useTodos } from "../hooks/useTodos";
+import Button from "./Button";
 
 export default function TodoList() {
   const { data, handlers, state } = useTodos({});
@@ -17,12 +18,7 @@ export default function TodoList() {
           placeholder="Add a new todo..."
           className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button
-          onClick={handlers.handleAddTodo}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Add
-        </button>
+        <Button onClick={handlers.handleAddTodo}>Add</Button>
       </div>
 
       <div className="space-y-2">
@@ -39,15 +35,26 @@ export default function TodoList() {
         ))}
       </div>
 
-      <button
+      <Button
+        type="error"
         disabled={!state.isTodoListLengthEven}
         onClick={handlers.removeEvenTodos}
-        className={`px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 ${
-          !state.isTodoListLengthEven ? "opacity-50 cursor-not-allowed" : ""
-        }`}
       >
         Remove even todos
-      </button>
+      </Button>
+
+      {state.todoListContainesDuplicates && (
+        <div className="mt-4 text-red-500">
+          Todo list contains duplicates!!!
+          <Button
+            type="error"
+            onClick={handlers.removeDuplicateTodos}
+            className="ml-2"
+          >
+            Remove duplicates
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

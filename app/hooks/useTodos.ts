@@ -1,7 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { generateId, removeEvenTodos } from "./todoHelper";
+import {
+  generateId,
+  hasDuplicateTodos,
+  removeDuplicateTodos,
+  removeEvenTodos,
+} from "./todoHelper";
 
 export interface ITodo {
   id: string;
@@ -21,6 +26,7 @@ interface IHandlers {
   clearTodos: () => void;
   handleToggleSelect: (id: string) => void;
   removeEvenTodos: () => void;
+  removeDuplicateTodos: () => void;
 }
 
 interface IData {
@@ -31,6 +37,7 @@ interface IData {
 interface IState {
   isSelected: (id: string) => boolean;
   isTodoListLengthEven: boolean;
+  todoListContainesDuplicates: boolean;
 }
 
 interface IUseTodos {
@@ -45,6 +52,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const isTodoListLengthEven = todos.length % 2 === 0 && todos.length > 0;
+  const todoListContainesDuplicates = hasDuplicateTodos(todos);
 
   const handleAddTodo = () => {
     if (newTodo.trim()) {
@@ -98,6 +106,11 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     setTodos(updatedTodos);
   };
 
+  const handleRemoveDuplicateTodos = () => {
+    const updatedTodos = removeDuplicateTodos(todos);
+    setTodos(updatedTodos);
+  };
+
   const data: IData = {
     todos,
     newTodo,
@@ -106,6 +119,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const state: IState = {
     isSelected,
     isTodoListLengthEven,
+    todoListContainesDuplicates,
   };
 
   const handlers: IHandlers = {
@@ -116,6 +130,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     handleToggleSelect,
     clearTodos,
     removeEvenTodos: handleRemoveEvenTodos,
+    removeDuplicateTodos: handleRemoveDuplicateTodos,
   };
 
   return {
