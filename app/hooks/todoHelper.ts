@@ -26,13 +26,11 @@ export const removeEvenTodos = (todos: ITodo[]): ITodo[] => {
 export const hasDuplicateTodos = (todos: ITodo[]): boolean => {
   const seenTexts: string[] = [];
 
-  todos.forEach((todo) => {
+  return todos.some((todo) => {
     if (seenTexts.includes(todo.text)) {
       return true;
     }
-
     seenTexts.push(todo.text);
+    return false;
   });
-
-  return false;
 };
