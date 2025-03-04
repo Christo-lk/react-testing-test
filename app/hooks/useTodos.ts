@@ -18,7 +18,7 @@ export function useTodos() {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const handleAddTodo = () => {
-    if (newTodo.length) {
+    if (newTodo.trim()) {
       setTodos([
         ...todos,
         {
@@ -42,6 +42,7 @@ export function useTodos() {
 
   const handleDeleteTodo = (id: string) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+    setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
