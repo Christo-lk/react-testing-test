@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { generateId } from "./todoHelper";
+import { generateId, removeEvenTodos } from "./todoHelper";
 
 export interface ITodo {
   id: string;
@@ -20,6 +20,7 @@ interface IHandlers {
   handleChange: (text: string) => void;
   clearTodos: () => void;
   handleToggleSelect: (id: string) => void;
+  removeEvenTodos: () => void;
 }
 
 interface IData {
@@ -43,7 +44,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const [newTodo, setNewTodo] = useState("");
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  const isTodoListLengthEven = todos.length % 2 === 0;
+  const isTodoListLengthEven = todos.length % 2 === 0 && todos.length > 0;
 
   const handleAddTodo = () => {
     if (newTodo.trim()) {
@@ -92,6 +93,11 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     setSelectedItems([]);
   };
 
+  const handleRemoveEvenTodos = () => {
+    const updatedTodos = removeEvenTodos(todos);
+    setTodos(updatedTodos);
+  };
+
   const data: IData = {
     todos,
     newTodo,
@@ -109,6 +115,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     handleChange,
     handleToggleSelect,
     clearTodos,
+    removeEvenTodos: handleRemoveEvenTodos,
   };
 
   return {

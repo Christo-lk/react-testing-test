@@ -26,10 +26,11 @@ export default function TodoList() {
       </div>
 
       <div className="space-y-2">
-        {data.todos.map((todo) => (
+        {data.todos.map((todo, index) => (
           <TodoItem
             key={todo.id}
             item={todo}
+            index={index}
             isSelected={state.isSelected(todo.id)}
             onToggle={() => handlers.handleToggleTodo(todo.id)}
             onDelete={() => handlers.handleDeleteTodo(todo.id)}
@@ -37,6 +38,16 @@ export default function TodoList() {
           />
         ))}
       </div>
+
+      <button
+        disabled={!state.isTodoListLengthEven}
+        onClick={handlers.removeEvenTodos}
+        className={`px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 ${
+          !state.isTodoListLengthEven ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      >
+        Remove even todos
+      </button>
     </div>
   );
 }

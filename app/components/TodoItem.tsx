@@ -5,12 +5,14 @@ import { ITodo } from "../hooks/useTodos";
 interface IProps {
   item: ITodo;
   isSelected: boolean;
+  index: number;
   onToggle: () => void;
   onDelete: () => void;
   onSelect: () => void;
 }
 
 export default function TodoItem({
+  index,
   item,
   onToggle,
   onDelete,
@@ -31,7 +33,7 @@ export default function TodoItem({
             item.done ? "line-through text-gray-500" : ""
           }`}
         >
-          {item.text}
+          {index + 1}. {item.text}
         </span>
       </div>
       <div className="flex gap-2">
