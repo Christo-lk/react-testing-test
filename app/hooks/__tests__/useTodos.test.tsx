@@ -3,19 +3,17 @@ import { useTodos } from "../useTodos";
 
 describe("useTodos", () => {
   it("should initialize with empty todos and empty newTodo", () => {
-    const { result } = renderHook(() => useTodos());
+    const { result } = renderHook(() => useTodos({ initialTodos: [] }));
 
     expect(result.current.data.todos).toEqual([]);
     expect(result.current.data.newTodo).toBe("");
   });
 
   it("should add a new todo when handleAddTodo is called", () => {
-    const { result } = renderHook(() => useTodos());
+    const { result } = renderHook(() => useTodos({ initialTodos: [] }));
 
     act(() => {
-      result.current.handlers.handleChange({
-        target: { value: "New todo" },
-      } as React.ChangeEvent<HTMLInputElement>);
+      result.current.handlers.handleChange("New todo");
     });
 
     act(() => {
@@ -29,7 +27,7 @@ describe("useTodos", () => {
   });
 
   it("should not add empty todos", () => {
-    const { result } = renderHook(() => useTodos());
+    const { result } = renderHook(() => useTodos({ initialTodos: [] }));
 
     act(() => {
       result.current.handlers.handleAddTodo();
@@ -39,13 +37,11 @@ describe("useTodos", () => {
   });
 
   it("should toggle todo done status", () => {
-    const { result } = renderHook(() => useTodos());
+    const { result } = renderHook(() => useTodos({ initialTodos: [] }));
 
     // Add a todo
     act(() => {
-      result.current.handlers.handleChange({
-        target: { value: "Test todo" },
-      } as React.ChangeEvent<HTMLInputElement>);
+      result.current.handlers.handleChange("Test todo");
     });
 
     act(() => {
@@ -70,13 +66,11 @@ describe("useTodos", () => {
   });
 
   it("should delete a todo", () => {
-    const { result } = renderHook(() => useTodos());
+    const { result } = renderHook(() => useTodos({ initialTodos: [] }));
 
     // Add a todo
     act(() => {
-      result.current.handlers.handleChange({
-        target: { value: "Test todo" },
-      } as React.ChangeEvent<HTMLInputElement>);
+      result.current.handlers.handleChange("Test todo");
     });
 
     act(() => {
@@ -96,14 +90,12 @@ describe("useTodos", () => {
   });
 
   it("should update newTodo value when handleChange is called", () => {
-    const { result } = renderHook(() => useTodos());
+    const { result } = renderHook(() => useTodos({ initialTodos: [] }));
 
     act(() => {
-      result.current.handlers.handleChange({
-        target: { value: "New todo text" },
-      } as React.ChangeEvent<HTMLInputElement>);
+      result.current.handlers.handleChange("test");
     });
 
-    expect(result.current.data.newTodo).toBe("New todo text");
+    expect(result.current.data.newTodo).toBe("test");
   });
 });

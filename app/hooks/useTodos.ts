@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { generateId } from "./todoHelper";
 
 interface Todo {
   id: string;
@@ -8,14 +9,41 @@ interface Todo {
   done: boolean;
 }
 
-function generateId(): string {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+interface IProps {
+  initialTodos?: Todo[];
 }
 
-export function useTodos() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+interface IHandlers {
+  handleAddTodo: () => void;
+  handleToggleTodo: (id: string) => void;
+  handleDeleteTodo: (id: string) => void;
+  handleChange: (text: string) => void;
+  clearTodos: () => void;
+  handleToggleSelect: (id: string) => void;
+}
+
+interface IData {
+  todos: Todo[];
+  newTodo: string;
+}
+
+interface IState {
+  isSelected: (id: string) => boolean;
+  isTodoListLengthEven: boolean;
+}
+
+interface IUseTodos {
+  data: IData;
+  handlers: IHandlers;
+  state: IState;
+}
+
+export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [newTodo, setNewTodo] = useState("");
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+  const isTodoListLengthEven = todos.length % 2 === 0;
 
   const handleAddTodo = () => {
     if (newTodo.trim()) {
@@ -45,8 +73,8 @@ export function useTodos() {
     setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodo(e.target.value);
+  const handleChange = (text: string) => {
+    setNewTodo(text);
   };
 
   const handleToggleSelect = (id: string) => {
@@ -59,27 +87,33 @@ export function useTodos() {
     return selectedItems.includes(id);
   };
 
-  const handleClearSelection = () => {
+  const clearTodos = () => {
+    setTodos([]);
     setSelectedItems([]);
   };
 
-  const data = {
+  const data: IData = {
     todos,
     newTodo,
   };
 
-  const handlers = {
+  const state: IState = {
+    isSelected,
+    isTodoListLengthEven,
+  };
+
+  const handlers: IHandlers = {
     handleAddTodo,
     handleToggleTodo,
     handleDeleteTodo,
     handleChange,
     handleToggleSelect,
-    isSelected,
-    handleClearSelection,
+    clearTodos,
   };
 
   return {
     data,
     handlers,
+    state,
   };
 }
