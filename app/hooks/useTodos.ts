@@ -32,18 +32,14 @@ interface IHandlers {
 interface IData {
   todos: ITodo[];
   newTodo: string;
-}
-
-interface IState {
   isSelected: (id: string) => boolean;
   isTodoListLengthEven: boolean;
   todoListContainsDuplicates: boolean;
 }
 
 interface IUseTodos {
-  data: IData;
   handlers: IHandlers;
-  state: IState;
+  data: IData;
 }
 
 export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
@@ -55,18 +51,18 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const todoListContainsDuplicates = hasDuplicateTodos(todos);
 
   const handleAddTodo = () => {
-    if (newTodo.trim()) {
-      setTodos([
-        ...todos,
-        {
-          id: generateId(),
-          text: newTodo.trim(),
-          done: false,
-        },
-      ]);
+    if (!newTodo.length) return;
 
-      setNewTodo("");
-    }
+    setTodos([
+      ...todos,
+      {
+        id: generateId(),
+        text: newTodo.trim(),
+        done: false,
+      },
+    ]);
+
+    setNewTodo("");
   };
 
   const handleToggleTodo = (id: string) => {
@@ -114,9 +110,6 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const data: IData = {
     todos,
     newTodo,
-  };
-
-  const state: IState = {
     isSelected,
     isTodoListLengthEven,
     todoListContainsDuplicates,
@@ -136,6 +129,5 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   return {
     data,
     handlers,
-    state,
   };
 }

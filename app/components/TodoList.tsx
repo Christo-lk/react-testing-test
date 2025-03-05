@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export default function TodoList({ initialTodos = [] }: IProps) {
-  const { data, handlers, state } = useTodos({ initialTodos });
+  const { data, handlers } = useTodos({ initialTodos });
 
   return (
     <div className="w-lg">
@@ -31,7 +31,7 @@ export default function TodoList({ initialTodos = [] }: IProps) {
             key={todo.id}
             item={todo}
             index={index}
-            isSelected={state.isSelected(todo.id)}
+            isSelected={data.isSelected(todo.id)}
             onToggle={() => handlers.handleToggleTodo(todo.id)}
             onDelete={() => handlers.handleDeleteTodo(todo.id)}
             onSelect={() => handlers.handleToggleSelect(todo.id)}
@@ -39,7 +39,7 @@ export default function TodoList({ initialTodos = [] }: IProps) {
         ))}
       </div>
 
-      {state.todoListContainsDuplicates && (
+      {data.todoListContainsDuplicates && (
         <div className="mt-4 text-red-500">
           Todo list contains duplicates!!!
           <Button
