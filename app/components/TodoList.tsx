@@ -3,6 +3,7 @@
 import TodoItem from "./TodoItem";
 import { ITodo, useTodos } from "../hooks/useTodos";
 import Button from "./Button";
+import Input from "./Input";
 
 interface IProps {
   initialTodos?: ITodo[];
@@ -14,15 +15,12 @@ export default function TodoList({ initialTodos = [] }: IProps) {
   return (
     <div className="w-lg">
       <div className="flex gap-2 mb-6">
-        <input
-          type="text"
+        <Input
           value={data.newTodo}
-          onChange={(e) => handlers.handleChange(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && handlers.handleAddTodo()}
+          onChange={handlers.handleChange}
           placeholder="Add a new todo..."
-          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <Button onClick={handlers.handleAddTodo}>Add</Button>
+        <Button onClick={handlers.addTodo}>Add</Button>
       </div>
 
       <div className="space-y-2">
@@ -32,9 +30,9 @@ export default function TodoList({ initialTodos = [] }: IProps) {
             item={todo}
             index={index}
             isSelected={data.isSelected(todo.id)}
-            onToggle={() => handlers.handleToggleTodo(todo.id)}
-            onDelete={() => handlers.handleDeleteTodo(todo.id)}
-            onSelect={() => handlers.handleToggleSelect(todo.id)}
+            onToggle={() => handlers.toggleTodo(todo.id)}
+            onDelete={() => handlers.deleteTodo(todo.id)}
+            onSelect={() => handlers.selectTodo(todo.id)}
           />
         ))}
       </div>
@@ -51,14 +49,6 @@ export default function TodoList({ initialTodos = [] }: IProps) {
           </Button>
         </div>
       )}
-
-      {/* <Button
-        type="error"
-        disabled={!state.isTodoListLengthEven}
-        onClick={handlers.removeEvenTodos}
-      >
-        Remove even todos
-      </Button> */}
     </div>
   );
 }

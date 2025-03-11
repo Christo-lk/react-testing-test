@@ -1,10 +1,10 @@
 import { ITodo } from "./useTodos";
 
-export function generateId(): string {
+function generateId(): string {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
 
-export const removeDuplicateTodos = (todos: ITodo[]): ITodo[] => {
+const removeDuplicateTodos = (todos: ITodo[]): ITodo[] => {
   const seenTexts = new Set<string>();
 
   return todos.filter((todo) => {
@@ -16,7 +16,7 @@ export const removeDuplicateTodos = (todos: ITodo[]): ITodo[] => {
   });
 };
 
-export const removeEvenTodos = (todos: ITodo[]): ITodo[] => {
+const removeEvenTodos = (todos: ITodo[]): ITodo[] => {
   const t = todos
     .map((t, i) => (i % 2 === 0 ? t : null))
     .filter((y) => y !== null);
@@ -24,7 +24,15 @@ export const removeEvenTodos = (todos: ITodo[]): ITodo[] => {
   return t;
 };
 
-export const hasDuplicateTodos = (todos: ITodo[]): boolean => {
+const hasDuplicateTodos = (todos: ITodo[]): boolean => {
   const seenTexts = new Set(todos.map((todo) => todo.text));
   return seenTexts.size !== todos.length;
+};
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  generateId,
+  removeDuplicateTodos,
+  removeEvenTodos,
+  hasDuplicateTodos,
 };

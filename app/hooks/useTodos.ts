@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  generateId,
-  hasDuplicateTodos,
-  removeDuplicateTodos,
-  removeEvenTodos,
-} from "./todoHelper";
+import todoHelper from "./todoHelper";
 
 export interface ITodo {
   id: string;
@@ -19,12 +14,12 @@ interface IProps {
 }
 
 interface IHandlers {
-  handleAddTodo: () => void;
-  handleToggleTodo: (id: string) => void;
-  handleDeleteTodo: (id: string) => void;
+  addTodo: () => void;
+  toggleTodo: (id: string) => void;
+  deleteTodo: (id: string) => void;
   handleChange: (text: string) => void;
   clearTodos: () => void;
-  handleToggleSelect: (id: string) => void;
+  selectTodo: (id: string) => void;
   removeEvenTodos: () => void;
   removeDuplicateTodos: () => void;
 }
@@ -48,15 +43,15 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const isTodoListLengthEven = todos.length % 2 === 0 && todos.length > 0;
-  const todoListContainsDuplicates = hasDuplicateTodos(todos);
+  const todoListContainsDuplicates = todoHelper.hasDuplicateTodos(todos);
 
-  const handleAddTodo = () => {
+  const addTodo = () => {
     if (!newTodo.length) return;
 
     setTodos([
       ...todos,
       {
-        id: generateId(),
+        id: todoHelper.generateId(),
         text: newTodo.trim(),
         done: false,
       },
@@ -65,7 +60,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     setNewTodo("");
   };
 
-  const handleToggleTodo = (id: string) => {
+  const toggleTodo = (id: string) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, done: !todo.done } : todo
@@ -73,7 +68,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     );
   };
 
-  const handleDeleteTodo = (id: string) => {
+  const deleteTodo = (id: string) => {
     setTodos(todos.filter((todo) => todo.id !== id));
     setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
   };
@@ -82,7 +77,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     setNewTodo(text);
   };
 
-  const handleToggleSelect = (id: string) => {
+  const selectTodo = (id: string) => {
     setSelectedItems((prev) =>
       prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
     );
@@ -97,13 +92,13 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     setSelectedItems([]);
   };
 
-  const handleRemoveEvenTodos = () => {
-    const updatedTodos = removeEvenTodos(todos);
+  const removeEvenTodos = () => {
+    const updatedTodos = todoHelper.removeEvenTodos(todos);
     setTodos(updatedTodos);
   };
 
-  const handleRemoveDuplicateTodos = () => {
-    const updatedTodos = removeDuplicateTodos(todos);
+  const removeDuplicateTodos = () => {
+    const updatedTodos = todoHelper.removeDuplicateTodos(todos);
     setTodos(updatedTodos);
   };
 
@@ -116,14 +111,14 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   };
 
   const handlers: IHandlers = {
-    handleAddTodo,
-    handleToggleTodo,
-    handleDeleteTodo,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
     handleChange,
-    handleToggleSelect,
+    selectTodo,
     clearTodos,
-    removeEvenTodos: handleRemoveEvenTodos,
-    removeDuplicateTodos: handleRemoveDuplicateTodos,
+    removeEvenTodos,
+    removeDuplicateTodos,
   };
 
   return {

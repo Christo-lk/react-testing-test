@@ -1,8 +1,4 @@
-import {
-  generateId,
-  removeDuplicateTodos,
-  hasDuplicateTodos,
-} from "../todoHelper";
+import todoHelper from "../todoHelper";
 import { ITodo } from "../useTodos";
 
 const todosWithDuplicates: ITodo[] = [
@@ -15,19 +11,19 @@ const todosWithDuplicates: ITodo[] = [
 describe("todoHelper", () => {
   describe("generateId", () => {
     it("should generate a unique string", () => {
-      const id = generateId();
+      const id = todoHelper.generateId();
       expect(typeof id).toBe("string");
       expect(id.length).toBeGreaterThan(0);
     });
 
     it("should generate different IDs on subsequent calls", () => {
-      const id1 = generateId();
-      const id2 = generateId();
+      const id1 = todoHelper.generateId();
+      const id2 = todoHelper.generateId();
       expect(id1).not.toBe(id2);
     });
 
     it("should generate IDs containing both random and timestamp components", () => {
-      const id = generateId();
+      const id = todoHelper.generateId();
       // The ID should contain both the random string and timestamp
       expect(id).toMatch(/^[a-z0-9]+[a-z0-9]+$/);
     });
@@ -35,7 +31,7 @@ describe("todoHelper", () => {
 
   describe("removeDuplicateTodos", () => {
     it("should remove todos with duplicate text", () => {
-      const result = removeDuplicateTodos(todosWithDuplicates);
+      const result = todoHelper.removeDuplicateTodos(todosWithDuplicates);
 
       expect(result).toHaveLength(2);
       expect(result).toEqual([
@@ -45,7 +41,7 @@ describe("todoHelper", () => {
     });
 
     it("should handle an empty array", () => {
-      const result = removeDuplicateTodos([]);
+      const result = todoHelper.removeDuplicateTodos([]);
       expect(result).toEqual([]);
     });
 
@@ -56,14 +52,14 @@ describe("todoHelper", () => {
         { id: "3", text: "Todo 3", done: false },
       ];
 
-      const result = removeDuplicateTodos(noDuplicates);
+      const result = todoHelper.removeDuplicateTodos(noDuplicates);
       expect(result).toEqual(noDuplicates);
     });
   });
 
   describe("hasDuplicateTodos", () => {
     it("should return true when there are duplicate todos", () => {
-      expect(hasDuplicateTodos(todosWithDuplicates)).toBe(true);
+      expect(todoHelper.hasDuplicateTodos(todosWithDuplicates)).toBe(true);
     });
 
     it("should return false when there are no duplicate todos", () => {
@@ -72,11 +68,11 @@ describe("todoHelper", () => {
         { id: "2", text: "Todo 2", done: false },
         { id: "3", text: "Todo 3", done: false },
       ];
-      expect(hasDuplicateTodos(noDuplicates)).toBe(false);
+      expect(todoHelper.hasDuplicateTodos(noDuplicates)).toBe(false);
     });
 
     it("should return false for an empty array", () => {
-      expect(hasDuplicateTodos([])).toBe(false);
+      expect(todoHelper.hasDuplicateTodos([])).toBe(false);
     });
 
     it("should return true for multiple duplicates", () => {
@@ -86,7 +82,7 @@ describe("todoHelper", () => {
         { id: "3", text: "Todo 2", done: false },
         { id: "4", text: "Todo 2", done: false },
       ];
-      expect(hasDuplicateTodos(multipleDuplicates)).toBe(true);
+      expect(todoHelper.hasDuplicateTodos(multipleDuplicates)).toBe(true);
     });
   });
 });
