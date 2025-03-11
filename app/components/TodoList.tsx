@@ -29,10 +29,10 @@ export default function TodoList({ initialTodos = [] }: IProps) {
             key={todo.id}
             item={todo}
             index={index}
-            isSelected={data.isSelected(todo.id)}
-            onToggle={() => handlers.toggleTodo(todo.id)}
-            onDelete={() => handlers.deleteTodo(todo.id)}
-            onSelect={() => handlers.selectTodo(todo.id)}
+            isSelected={data.isSelected}
+            onToggle={handlers.toggleTodo}
+            onDelete={handlers.deleteTodo}
+            onSelect={handlers.selectTodo}
           />
         ))}
       </div>

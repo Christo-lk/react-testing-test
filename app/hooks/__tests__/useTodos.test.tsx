@@ -17,7 +17,7 @@ describe("useTodos", () => {
     });
 
     act(() => {
-      result.current.handlers.handleAddTodo();
+      result.current.handlers.addTodo();
     });
 
     expect(result.current.data.todos).toHaveLength(1);
@@ -30,7 +30,7 @@ describe("useTodos", () => {
     const { result } = renderHook(() => useTodos({ initialTodos: [] }));
 
     act(() => {
-      result.current.handlers.handleAddTodo();
+      result.current.handlers.addTodo();
     });
 
     expect(result.current.data.todos).toHaveLength(0);
@@ -45,21 +45,21 @@ describe("useTodos", () => {
     });
 
     act(() => {
-      result.current.handlers.handleAddTodo();
+      result.current.handlers.addTodo();
     });
 
     const todoId = result.current.data.todos[0].id;
 
     // Toggle the todo
     act(() => {
-      result.current.handlers.handleToggleTodo(todoId);
+      result.current.handlers.toggleTodo(todoId);
     });
 
     expect(result.current.data.todos[0].done).toBe(true);
 
     // Toggle it back
     act(() => {
-      result.current.handlers.handleToggleTodo(todoId);
+      result.current.handlers.toggleTodo(todoId);
     });
 
     expect(result.current.data.todos[0].done).toBe(false);
@@ -74,7 +74,7 @@ describe("useTodos", () => {
     });
 
     act(() => {
-      result.current.handlers.handleAddTodo();
+      result.current.handlers.addTodo();
     });
 
     expect(result.current.data.todos).toHaveLength(1);
@@ -83,7 +83,7 @@ describe("useTodos", () => {
 
     // Delete the todo
     act(() => {
-      result.current.handlers.handleDeleteTodo(todoId);
+      result.current.handlers.deleteTodo(todoId);
     });
 
     expect(result.current.data.todos).toHaveLength(0);
