@@ -40,7 +40,7 @@ interface IUseTodos {
 export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   const [todos, setTodos] = useState<ITodo[]>(initialTodos);
   const [newTodo, setNewTodo] = useState("");
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedTodos, setSelectedTodos] = useState<string[]>([]);
 
   const isTodoListLengthEven = todos.length % 2 === 0 && todos.length > 0;
   const todoListContainsDuplicates = todoHelper.hasDuplicateTodos(todos);
@@ -70,7 +70,7 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
 
   const deleteTodo = (id: string) => {
     setTodos(todos.filter((todo) => todo.id !== id));
-    setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
+    setSelectedTodos(selectedTodos.filter((itemId) => itemId !== id));
   };
 
   const handleChange = (text: string) => {
@@ -78,18 +78,18 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
   };
 
   const selectTodo = (id: string) => {
-    setSelectedItems((prev) =>
+    setSelectedTodos((prev) =>
       prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
     );
   };
 
   const isSelected = (id: string) => {
-    return selectedItems.includes(id);
+    return selectedTodos.includes(id);
   };
 
   const clearTodos = () => {
     setTodos([]);
-    setSelectedItems([]);
+    setSelectedTodos([]);
   };
 
   const removeEvenTodos = () => {
