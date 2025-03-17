@@ -20,7 +20,6 @@ interface IHandlers {
   handleChange: (text: string) => void;
   clearTodos: () => void;
   selectTodo: (id: string) => void;
-  removeEvenTodos: () => void;
   removeDuplicateTodos: () => void;
 }
 
@@ -92,13 +91,9 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     setSelectedTodos([]);
   };
 
-  const removeEvenTodos = () => {
-    const updatedTodos = todoHelper.removeEvenTodos(todos);
-    setTodos(updatedTodos);
-  };
-
   const removeDuplicateTodos = () => {
     const updatedTodos = todoHelper.removeDuplicateTodos(todos);
+
     setTodos(updatedTodos);
   };
 
@@ -117,7 +112,6 @@ export function useTodos({ initialTodos = [] }: IProps): IUseTodos {
     handleChange,
     selectTodo,
     clearTodos,
-    removeEvenTodos,
     removeDuplicateTodos,
   };
 

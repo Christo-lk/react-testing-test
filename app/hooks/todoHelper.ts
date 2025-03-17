@@ -16,14 +16,6 @@ const removeDuplicateTodos = (todos: ITodo[]): ITodo[] => {
   });
 };
 
-const removeEvenTodos = (todos: ITodo[]): ITodo[] => {
-  const t = todos
-    .map((t, i) => (i % 2 === 0 ? t : null))
-    .filter((y) => y !== null);
-
-  return t;
-};
-
 const hasDuplicateTodos = (todos: ITodo[]): boolean => {
   const seenTexts = new Set(todos.map((todo) => todo.text));
   return seenTexts.size !== todos.length;
@@ -33,6 +25,5 @@ const hasDuplicateTodos = (todos: ITodo[]): boolean => {
 export default {
   generateId,
   removeDuplicateTodos,
-  removeEvenTodos,
   hasDuplicateTodos,
 };
